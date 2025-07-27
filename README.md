@@ -137,7 +137,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ### 3. Acceder a la interfaz
-- Abre `http://localhost:8000` en tu navegador
+- Abre `http://127.0.0.1:8000` en tu navegador
 - El stream se mostrará automáticamente
 - Las estadísticas se actualizan cada segundo
 
