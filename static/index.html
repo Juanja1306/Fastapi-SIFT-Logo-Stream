@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIFT Stream Viewer</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --fg: #e5e5e5;
+      --accent: #3fa9f5;
+      --card: #1a1d23;
+      --radius: 14px;
+      --gap: 1rem;
+      --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font); }
+    body { display: flex; flex-direction: column; }
+
+    header {
+      padding: .8rem 1.2rem; background: var(--card); box-shadow: 0 2px 6px rgba(0,0,0,.35);
+      display: flex; align-items: center; justify-content: space-between; gap: .5rem;
+    }
+    header h1 { margin: 0; font-size: 1.1rem; font-weight: 600; color: var(--accent); }
+    header small { opacity: .6; font-size: .78rem; }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: var(--gap);
+      padding: var(--gap);
+    }
+    .video-card, .stats-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: var(--gap);
+      display: flex; flex-direction: column;
+      box-shadow: 0 8px 24px rgba(0,0,0,.3);
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      overflow: hidden;
+      border-radius: calc(var(--radius) - 4px);
+      background: #000;
+    }
+    .video-wrapper img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .legend {
+      margin-top: .6rem; font-size: .8rem; opacity: .7; line-height: 1.3;
+    }
+
+    .stats-card h2 { margin: 0 0 .6rem; font-size: .95rem; font-weight: 600; color: var(--accent); }
+    iframe, object {
+      width: 100%; height: 100%; border: none; background: #111;
+      border-radius: calc(var(--radius) - 6px);
+    }
+
+    footer {
+      padding: .6rem 1rem; text-align: center; font-size: .72rem; opacity: .55;
+    }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+      .stats-card { height: 260px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>SIFT Stream Viewer</h1>
+    <small>FastAPI • OpenCV SIFT • MJPEG</small>
+  </header>
+
+  <main>
+    <!-- VIDEO -->
+    <section class="video-card">
+      <div class="video-wrapper">
+        <!-- El stream MJPEG sale como un <img> que se actualiza solo -->
+        <img src="/stream" alt="SIFT MJPEG stream" />
+      </div>
+      <div class="legend">
+        Si no ves imagen: confirma la IP del celular, el backend y los puertos. <br>
+        ESC en la versión de escritorio no aplica aquí; para detener el backend, Ctrl+C en la terminal.
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <aside class="stats-card">
+      <h2>Estadísticas (auto-refresh)</h2>
+      <!-- Sin JavaScript, usamos un <iframe> que se recarga solo con meta refresh del propio endpoint
+           Alternativamente puedes crear un endpoint /stats_html que devuelva HTML. -->
+      <iframe src="/stats_html"></iframe>
+    </aside>
+  </main>
+
+  <footer>
+    Hecho con ♥ FastAPI & OpenCV | SIFT requiere opencv-contrib-python
+  </footer>
+</body>
+</html>
